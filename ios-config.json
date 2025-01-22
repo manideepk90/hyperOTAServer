@@ -1,0 +1,19 @@
+{
+  "config": {
+    "version": "v44",
+    "release_config_timeout": 10000,
+    "package_timeout": 10000,
+    "properties": {}
+  },
+  "package": {
+    "name": "Hyperswitch_SDK",
+    "version": "v45.0.7",
+    "properties": {
+      "manifest": {},
+      "manifest_hash": {}
+    },
+    "index": "http://localhost:3000/files/ios/bundle-v45_0_6.zip",
+    "splits": []
+  },
+  "resources": {}
+}
