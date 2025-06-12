@@ -1,0 +1,24 @@
+{
+  "version": "2",
+  "config": {
+    "version": "v2",
+    "release_config_timeout": 2000,
+    "boot_timeout": 2000,
+    "properties": {}
+  },
+  "package": {
+    "name": "Hyperswitch_SDK",
+    "version": "v2",
+    "properties": {
+      "manifest": {},
+      "manifest_hash": {}
+    },
+    "index": {
+      "url": "http://10.10.28.194:3000/files/android/bundle-v1-android.zip",
+      "filePath": "hyperswitch.bundle"
+    },
+    "important": [],
+    "lazy": []
+  },
+  "resources": []
+}

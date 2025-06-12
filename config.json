@@ -1,19 +1,18 @@
 {
+  "version": "2",
   "config": {
-    "version": "v45.0.5",
-    "release_config_timeout": 10000,
-    "package_timeout": 20000,
-    "properties": {}
+      "version": "v1",
+      "release_config_timeout": 1000,
+      "boot_timeout": 3000,
+      "properties": {}
   },
   "package": {
-    "name": "Hyperswitch_SDK",
-    "version": "v45.0.4",
-    "properties": {
-      "manifest": {},
-      "manifest_hash": {}
-    },
-    "index": "http://10.0.2.2:3000/files/android/bundle-v45_0_1.zip",
-    "splits": []
+      "name": "Hyperswitch_SDK",
+      "version": "v6",
+      "index": "http://10.0.2.2:3000/files/android/hyperswitch.bundle?version=v6",
+      "properties": {},
+      "important": [],
+      "lazy": []
   },
-  "resources": {}
+  "resources": []
 }
