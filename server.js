@@ -13,10 +13,9 @@ app.use(
 );
 
 const PORT = process.env.PORT || 3000;
-// Middleware to handle JSON parsing
+
 app.use(express.json());
 
-// Create a directory for files if it doesn't exist
 const uploadsDir = path.join(__dirname, "uploads/android");
 if (!fs.existsSync(uploadsDir)) {
   fs.mkdirSync(uploadsDir);
@@ -30,15 +29,38 @@ if (!fs.existsSync(iosUploadsDir)) {
   fs.mkdirSync(iosUploadsDir);
 }
 
-// Route to serve the config file
 app.get("/mobile-ota/android/:version/config.json", (req, res) => {
   try {
-    console.log("called android release bundle");
-    const configPath = path.join(__dirname, "config.json");
+    const version = req.params.version;
+    console.log("called android release bundle, version:", version);
+
+    const versionPath = path.join(__dirname, "ota", version, "android", "config.json");
+    const defaultPath = path.join(__dirname, "ota", "default", "config.json");
+    const fallbackPath = path.join(__dirname, "config.json");
+
+    let configPath;
+
+    // First check if version-specific config exists
+    if (fs.existsSync(versionPath)) {
+      configPath = versionPath;
+      console.log(`Using version-specific config: ${versionPath}`);
+    }
+    // Then check if default config exists
+    else if (fs.existsSync(defaultPath)) {
+      configPath = defaultPath;
+      console.log(`Version ${version} not found, using default config: ${defaultPath}`);
+    }
+    // Finally fall back to config.json
+    else {
+      configPath = fallbackPath;
+      console.log(`No ota configs found, using fallback config: ${fallbackPath}`);
+    }
+
     const configData = fs.readFileSync(configPath, "utf8");
     const config = JSON.parse(configData);
     res.json(config);
   } catch (error) {
+    console.error("Error loading configuration:", error);
     res.status(500).json({ error: "Failed to load configuration" });
   }
 });
@@ -48,11 +70,35 @@ app.get("/mobile-ota/ios/:version/config.json", (req, res) => {
   try {
     const version = req.params.version;
     console.log("called ios release bundle, version:", version);
-    const configPath = path.join(__dirname, "ios-config2.json");
+
+    // Check if version-specific folder exists in ota directory
+    const versionPath = path.join(__dirname, "ota", version, "ios" ,"config.json");
+    const defaultPath = path.join(__dirname, "ota", "default-ios", "config.json");
+    const fallbackPath = path.join(__dirname, "ios-config.json");
+
+    let configPath;
+
+    // First check if version-specific config exists
+    if (fs.existsSync(versionPath)) {
+      configPath = versionPath;
+      console.log(`Using version-specific config: ${versionPath}`);
+    }
+    // Then check if default config exists
+    else if (fs.existsSync(defaultPath)) {
+      configPath = defaultPath;
+      console.log(`Version ${version} not found, using default config: ${defaultPath}`);
+    }
+    // Finally fall back to ios-config2.json
+    else {
+      configPath = fallbackPath;
+      console.log(`No ota configs found, using fallback config: ${fallbackPath}`);
+    }
+
     const configData = fs.readFileSync(configPath, "utf8");
     const config = JSON.parse(configData);
     res.json(config);
   } catch (error) {
+    console.error("Error loading configuration:", error);
     res.status(500).json({ error: "Failed to load configuration" });
   }
 });
@@ -140,7 +186,7 @@ app.get("/files/ios/:filename", (req, res) => {
 function getNetworkInterfaces() {
   const interfaces = os.networkInterfaces();
   const addresses = [];
-  
+
   for (const name of Object.keys(interfaces)) {
     for (const interface of interfaces[name]) {
       // Skip internal (i.e. 127.0.0.1) and non-IPv4 addresses
@@ -152,7 +198,7 @@ function getNetworkInterfaces() {
       }
     }
   }
-  
+
   return addresses;
 }
 
@@ -161,10 +207,10 @@ app.listen(PORT, '0.0.0.0', () => {
   console.log('='.repeat(60));
   console.log('Server is running and accessible at:');
   console.log('-'.repeat(60));
-  
+
   // Show localhost URL
   console.log(`Local:    http://localhost:${PORT}`);
-  
+
   // Show network URLs
   const networkInterfaces = getNetworkInterfaces();
   if (networkInterfaces.length > 0) {
@@ -173,7 +219,7 @@ app.listen(PORT, '0.0.0.0', () => {
       console.log(`  - http://${address}:${PORT} (${name})`);
     });
   }
-  
+
   console.log('-'.repeat(60));
   console.log('File directories:');
   console.log(`Android:  ${uploadsDir}`);

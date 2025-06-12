@@ -1,19 +1,24 @@
 {
-  "config": {
-    "version": "v1",
-    "release_config_timeout": 10000,
-    "package_timeout": 10000,
-    "properties": {}
-  },
-  "package": {
-    "name": "Hyperswitch_SDK",
-    "version": "v1",
-    "properties": {
-      "manifest": {},
-      "manifest_hash": {}
+    "version": "4",
+    "config": {
+      "version": "v3",
+      "release_config_timeout": 100,
+      "boot_timeout": 100,
+      "properties": {}
     },
-    "index": "http://10.100.13.194:3000/files/ios/bundle-v2.zip",
-    "splits": []
-  },
-  "resources": {}
-}
+    "package": {
+      "name": "Hyperswitch_SDK",
+      "version": "v4",
+      "properties": {
+        "manifest": {},
+        "manifest_hash": {}
+      },
+      "index": {
+        "url": "http://localhost:3000/files/ios/hyperswitch.bundle?version=v4",
+        "filePath": "hyperswitch.bundle"
+      },
+      "important": [],
+      "lazy": []
+    },
+    "resources": []
+  }

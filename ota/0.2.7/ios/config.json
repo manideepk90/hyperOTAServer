@@ -14,7 +14,7 @@
       "manifest_hash": {}
     },
     "index": {
-      "url": "http://10.10.28.194:3000/files/android/bundle-v1-android.zip",
+      "url": "http://10.10.28.194:3000/files/ios/bundle-v1-android.zip",
       "filePath": "hyperswitch.bundle"
     },
     "important": [],
